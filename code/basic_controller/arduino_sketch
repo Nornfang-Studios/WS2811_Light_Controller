@@ -1,0 +1,83 @@
+#include <FastLED.h>
+
+
+#define LED_PIN   7
+
+char incomingValueSignedByte = 0;   
+int incomingValueIntR;    
+int incomingValueIntG;    
+int incomingValueIntB;
+boolean setNumberOfLed = false;
+int incomingValueLedNum;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  if(Serial.available() > 0){
+    incomingValueSignedByte = Serial.read();
+    if (incomingValueSignedByte == 0) {
+      // Red
+      while (Serial.available() <= 0) {}
+      incomingValueSignedByte = Serial.read();
+      incomingValueIntR = int(incomingValueSignedByte);
+      if (incomingValueIntR < 0) {
+        incomingValueIntR = 256+incomingValueIntR;
+      }
+      Serial.print(incomingValueIntR);
+      Serial.print(",");
+      // Blue
+      while (Serial.available() <= 0) {}
+      incomingValueSignedByte = Serial.read();     
+      incomingValueIntG = int(incomingValueSignedByte);
+      if (incomingValueIntG < 0) {
+        incomingValueIntG = 256+incomingValueIntG;
+      }
+      Serial.print(incomingValueIntG);
+      Serial.print(",");
+      // Green
+      while (Serial.available() <= 0) {}
+      incomingValueSignedByte = Serial.read();     
+      incomingValueIntB = int(incomingValueSignedByte);
+      if (incomingValueIntB < 0) {
+        incomingValueIntB = 256+incomingValueIntB;
+      }
+      Serial.print(incomingValueIntB);
+      Serial.print(",");
+
+      while (Serial.available() <= 0) {}  
+      incomingValueSignedByte = Serial.read();     
+      incomingValueLedNum = int(incomingValueSignedByte);
+      Serial.println(incomingValueLedNum);
+
+      if(incomingValueIntR == 255 && incomingValueIntG < 100 && incomingValueIntB < 100){
+        incomingValueIntG = 0;
+        incomingValueIntB = 0;
+      }else if(incomingValueIntG == 255 && incomingValueIntR < 100 && incomingValueIntB < 100){
+        incomingValueIntR = 0;
+        incomingValueIntB = 0;
+      }else if(incomingValueIntB == 255 && incomingValueIntG < 100 && incomingValueIntR < 100){
+        incomingValueIntR = 0;
+        incomingValueIntG = 0;
+      }else if(incomingValueIntR > 210 && incomingValueIntG > 210 && incomingValueIntB < 100){
+        incomingValueIntB = 0;
+      }else if(incomingValueIntR > 210 && incomingValueIntB > 210 && incomingValueIntG < 100){
+        incomingValueIntG = 0;
+      }else if(incomingValueIntG > 210 && incomingValueIntB > 210 && incomingValueIntR < 100){
+        incomingValueIntR = 0;
+      }else if(incomingValueIntG > 210 && incomingValueIntB > 210 && incomingValueIntG > 210){
+      }else{
+        incomingValueIntR = incomingValueIntR - 25;
+        incomingValueIntG = incomingValueIntG - 25;
+        incomingValueIntB = incomingValueIntB - 25;
+      }
+      const int num_leds = incomingValueLedNum;
+      CRGB leds[num_leds];
+      FastLED.addLeds<WS2811, LED_PIN, RGB>(leds, num_leds);
+      FastLED.setBrightness(200);
+      fill_solid(leds, num_leds, CRGB( incomingValueIntR, incomingValueIntG, incomingValueIntB));
+      FastLED.show();
+    }
+  }
+}
