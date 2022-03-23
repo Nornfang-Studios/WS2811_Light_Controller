@@ -1,0 +1,9 @@
+name: Build App Inventor Extension
+  # You may pin to the exact commit or the version.
+  # uses: ysfchn/appinventor-aix-action@686ff3b02b27adb5975532d50c56074bcedaf268
+  uses: ysfchn/appinventor-aix-action@v1.2
+  with:
+    # The git URL of your App Inventor sources.
+    source: # default is https://github.com/mit-cml/appinventor-sources.git
+    # A valid branch name of your App Inventor source repository which extensions will build from.
+    branch: # optional, default is master
