@@ -8,7 +8,7 @@ A app that you can install on your phone to control WS2811 lights or our product
 *None*
 ## Contrubuting
 To contrubuite to this respitory you can edit the arduino skectch code and send in pull requests, but if you would like to edit the app please just post an issue with 
-"[Feature Request]" text in the title because the app is made in MIT App Inventor and can not be integrated with github.
+"[Feature Request]" text in the title because the app is made in MIT App Inventor and can not be integrated with github. If you would actually like to edit the app with Mit App Inventor please check the wiki.
 ## Projects
 You can see the current progress on our products in the projects tab on the github page.
 ## Creator
